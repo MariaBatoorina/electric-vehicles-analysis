@@ -54,11 +54,47 @@ def create_summary_table(df, descriptions):
     
     return summary
 
-def analyze_vehicle_location(df):
-    from cleaning import parse_vehicle_location
-    df = parse_vehicle_location(df)
-    print("\nПеревірка координат:")
+def analyze_dol_vehicle_id(df):
+    total = len(df)
+    unique_count = df['DOL Vehicle ID'].nunique()
+    null_count = df['DOL Vehicle ID'].isna().sum()
+    duplicate_count = total - unique_count
     
+    print(f"Всього записів: {total:,}")
+    print(f"Унікальних ID: {unique_count:,}")
+    print(f"Пропусків: {null_count} ({null_count/total*100:.4f}%)")
+    
+    if unique_count == total:
+        print("Всі ID унікальні.")
+    else:
+        print(f"Є {duplicate_count} дублікатів")
+    
+    return df
+
+def check_ev_types(df):
+    valid_types = ['Battery Electric Vehicle (BEV)', 'Plug-in Hybrid Electric Vehicle (PHEV)']
+    unique_types = df['Electric Vehicle Type'].dropna().unique()
+    invalid = [t for t in unique_types if t not in valid_types]
+
+    if invalid:
+        print(f"Знайдено некоректні типи: {invalid}")
+    else:
+        print("Всі типи коректні")
+    
+    return df
+
+def preview_incorrect_models(df, incorrect_models, corrupted_models=None):
+    all_models = list(incorrect_models.keys())
+    if corrupted_models:
+        all_models.extend(corrupted_models)
+    
+    for model in all_models:
+        rows = df[df['Model'] == model]
+        if len(rows) > 0:
+            print(f"\n'{model}' — {len(rows)} записів")
+            print(rows[['Make', 'Model Year', 'State', 'City']].head())
+
+def analyze_vehicle_location(df):
     invalid_lat = df[(df['Latitude'] < -90) | (df['Latitude'] > 90)]
     print(f"Широта (Latitude):")
     print(f"Мін: {df['Latitude'].min():.4f}")
@@ -95,8 +131,6 @@ def analyze_county(df):
     
     return df
 
-# analysis.py
-
 def analyze_base_msrp(df):
     #column_summary(df, 'Base MSRP')
     zero_count = (df['Base MSRP'] == 0).sum()
@@ -107,8 +141,19 @@ def analyze_base_msrp(df):
     print(f"Нульових значень: {zero_count:,} ({zero_count/total*100:.2f}%)")
     print(f"Реальних даних:   {real_count:,} ({real_count/total*100:.2f}%)")
     
-    print("\nКолонка не придатна до аналізу:")
+    print("Колонка має аномальний розподіл, де більшість значень = 0.")
     print("98.71% даних = 0")
     print("Тільки 1.29% записів мають реальні ціни")
+    
+    return df
+
+def analyze_electric_range(df):
+    total = len(df)
+    zero_count = (df['Electric Range'] == 0).sum()
+    real_count = (df['Electric Range'] > 0).sum()
+    
+    print(f"Розподіл даних:")
+    print(f"Нульових значень: {zero_count:,} ({zero_count/total*100:.2f}%)")
+    print(f"Реальних даних:   {real_count:,} ({real_count/total*100:.2f}%)")
     
     return df

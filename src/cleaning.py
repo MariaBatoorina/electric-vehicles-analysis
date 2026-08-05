@@ -50,17 +50,6 @@ def fix_make_replacements(df, replacements):
             print(f"'{wrong}' - '{correct}' ({count} записів)")
     return df
 
-def preview_incorrect_models(df, incorrect_models, corrupted_models=None):
-    all_models = list(incorrect_models.keys())
-    if corrupted_models:
-        all_models.extend(corrupted_models)
-    
-    for model in all_models:
-        rows = df[df['Model'] == model]
-        if len(rows) > 0:
-            print(f"\n'{model}' — {len(rows)} записів")
-            print(rows[['Make', 'Model Year', 'State', 'City']].head())
-
 def fix_model_incorrect(df, incorrect_models, corrupted_models=None):
     for wrong, correct in incorrect_models.items():
         count = (df['Model'] == wrong).sum()
@@ -74,18 +63,6 @@ def fix_model_incorrect(df, incorrect_models, corrupted_models=None):
             if count > 0:
                 df = df[df['Model'] != model]
                 print(f"Видалено '{model}' ({count} записів)")
-    
-    return df
-
-def check_ev_types(df):
-    valid_types = ['Battery Electric Vehicle (BEV)', 'Plug-in Hybrid Electric Vehicle (PHEV)']
-    unique_types = df['Electric Vehicle Type'].dropna().unique()
-    invalid = [t for t in unique_types if t not in valid_types]
-
-    if invalid:
-        print(f"Знайдено некоректні типи: {invalid}")
-    else:
-        print("Всі типи коректні")
     
     return df
 
@@ -185,7 +162,34 @@ def clean_census_tract(df):
     
     return df
 
+def clean_legislative_district(df):
+    null_count = df['Legislative District'].isna().sum()
+    if null_count > 0:
+        median_val = df['Legislative District'].median()
+        df['Legislative District'] = df['Legislative District'].fillna(median_val)
+        print(f"Заповнено {null_count} пропусків медіаною ({median_val:.0f})")
+    else:
+        print("Пропусків немає")
+    
+    df['Legislative District'] = df['Legislative District'].astype('Int64')
+    
+    return df
 
+def clean_electric_range(df):
+    df['Electric Range Clean'] = df['Electric Range']
+    print("Створено копію 'Electric Range Clean'")
+    
+    zero_count = (df['Electric Range Clean'] == 0).sum()
+    df['Electric Range Clean'] = df['Electric Range Clean'].replace(0, np.nan)
+    
+    print(f"Замінено {zero_count:,} нулів на NaN")
+    print(f"Реальних даних: {df['Electric Range Clean'].notna().sum():,}")
+    
+    print("Порівняння:")
+    print(f"Оригінал (Electric Range):      {df['Electric Range'].notna().sum():,} записів")
+    print(f"Копія (Electric Range Clean):   {df['Electric Range Clean'].notna().sum():,} записів (без нулів)")
+    
+    return df
 
 
 

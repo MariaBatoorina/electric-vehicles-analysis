@@ -19,6 +19,11 @@ print('\nVIN (1-10)')
 #column_summary(df, 'VIN (1-10)')
 df = parse_vin_long_rows(df)
 
+# DOL Vehicle ID
+
+print('\nDOL Vehicle ID')
+df = analyze_dol_vehicle_id(df)
+
 # Make
 
 print('\nMake')
@@ -53,6 +58,7 @@ print(f"Унікальні статуси: {df['Clean Alternative Fuel Vehicle (
 
 print('\nVehicle Location')
 #text_column_summary(df, 'Vehicle Location')
+df = parse_vehicle_location(df)
 df = analyze_vehicle_location(df)
 
 # Electric Utility
@@ -104,12 +110,29 @@ print('\n2020 Census Tract')
 #column_summary(df, '2020 Census Tract')
 df = clean_census_tract(df)
 
+# Legislative District
+
+print('\nLegislative District')
+df['Legislative District'] = pd.to_numeric(df['Legislative District'], errors='coerce')
+#numeric_column_summary(df, 'Legislative District')
+df = clean_legislative_district(df)
+
+# Electric Range
+
+print('\nElectric Range')
+df['Electric Range'] = pd.to_numeric(df['Electric Range'], errors='coerce')
+#numeric_column_summary(df, 'Electric Range')
+df = analyze_electric_range(df)
+df = clean_electric_range(df)
+
 # Base MSRP
+
+print('\nBase MSRP')
 df = analyze_base_msrp(df)
 
 df.to_csv('Electric_Vehicle_Data_CLEANED.csv', index=False)
 print(f"\nВсього записів: {len(df):,}")
 print(f"Всього колонок: {len(df.columns)}")
 
-print(df.head(20).to_string())
+#print(df.head(20).to_string())
 
