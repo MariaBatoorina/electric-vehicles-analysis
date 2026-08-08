@@ -1,25 +1,18 @@
 electric-vehicles-analysis/
 │
-├── README.md                          # Опис проекту
-├── requirements.txt                   # Залежності
-├── .gitignore                         # Щоб не публікувати дані
-│
-├── data/
-│   └── .gitkeep                       # Папка для даних (порожня)
-│
+├── README.md                          
+├── requirements.txt                   
+├── .gitignore                       
+├── data
+│   
 ├── notebooks/
-│   └── 01_data_understanding.ipynb    # Jupyter Notebook (основний аналіз)
+│   └── 01_data_understanding.ipynb    
 │
-├── src/                               # Модулі Python
-│   ├── __init__.py
-│   ├── config.py                      # Конфігурація (шляхи, словники)
-│   ├── data_loader.py                 # Завантаження даних
-│   ├── cleaning.py                    # Функції очищення
-│   ├── analysis.py                    # Функції аналізу
-│   └── main.py                        # Головний скрипт
+├── src/                               
+│   ├── config.py                     
+│   ├── data_loader.py                 
+│   ├── cleaning.py                    
+│   ├── analysis.py                    
+│   └── main.py                        
 │
-├── reports/
-│   └── data_understanding_report.md   # Звіт
-│
-└── visualizations/                    # Збережені графіки
-    └── .gitkeep
+└── visualizations/                    
