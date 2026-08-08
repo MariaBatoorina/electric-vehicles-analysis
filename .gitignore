@@ -1,0 +1,27 @@
+# Дані (НІКОЛИ НЕ ПУБЛІКУЄМО!)
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.json
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Налаштування
+.env
+.venv
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
+
