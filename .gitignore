@@ -25,3 +25,5 @@ Thumbs.db
 # Логи
 *.log
 
+__pycache__/
+*.pyc
