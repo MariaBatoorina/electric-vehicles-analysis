@@ -3,10 +3,8 @@ electric-vehicles-analysis/
 ├── README.md                          
 ├── requirements.txt                   
 ├── .gitignore                       
-├── data
-│   
-├── notebooks/
-│   └── 01_data_understanding.ipynb    
+├── data 
+├── E[ploratory_Data_Analysis.ipynb    
 │
 ├── src/                               
 │   ├── config.py                     
