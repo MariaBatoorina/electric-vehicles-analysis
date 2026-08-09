@@ -4,7 +4,7 @@ electric-vehicles-analysis/
 ├── requirements.txt                   
 ├── .gitignore                       
 ├── data 
-├── E[ploratory_Data_Analysis.ipynb    
+├── Exploratory_Data_Analysis.ipynb    
 │
 ├── src/                               
 │   ├── config.py                     
