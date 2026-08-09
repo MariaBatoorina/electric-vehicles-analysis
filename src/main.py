@@ -6,8 +6,8 @@ from data_loader import *
 from cleaning import *
 from analysis import *
 
-df = load_data('src/Electric_Vehicle_Population_Data_changed.csv')
-df = create_copy(df, 'Electric_Vehicle_Population_Data_CLEAN.csv')
+df = load_data('data/Electric_Vehicle_Population_Data_changed.csv')
+df = create_copy(df, 'data/Electric_Vehicle_Population_Data_CLEAN.csv')
 
 summary = create_summary_table(df, COLUMN_DESCRIPTIONS)
 print("\nData Understanding")
@@ -130,7 +130,7 @@ df = clean_electric_range(df)
 print('\nBase MSRP')
 df = analyze_base_msrp(df)
 
-df.to_csv('Electric_Vehicle_Data_CLEANED.csv', index=False)
+df.to_csv('data/Electric_Vehicle_Data_CLEANED.csv', index=False)
 print(f"\nВсього записів: {len(df):,}")
 print(f"Всього колонок: {len(df.columns)}")
 
